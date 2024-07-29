@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="./scripts/fire-effect.js"></script>
+    <script src="./scripts/bubble-effect.js"></script>
+    <script src="./scripts/simple-navmesh-constraint.js"></script>
+    <script src="./scripts/aframe-extras.controls.min.js"></script>
+    <script src="./scripts/components.js"></script>
+  </head>
+  <body>
+    <a-scene id="sceneId">
+      <a-assets>
+        <img id="sky" src="./assets/sky.jpg">
+        <a-asset-item id="factory" src="./assets/factory/factory.gltf"></a-asset-item>
+        <a-asset-item id="navmesh" src="./assets/navmesh/navmesh.gltf"></a-asset-item>
+        <a-asset-item id="extinguisher" src="./assets/extinguisher/extinguisher.glb"></a-asset-item>
+        <a-asset-item id="open-extinguisher" src="./assets/extinguisher/open-extinguisher.glb"></a-asset-item>
+        <a-asset-item id="tires" src="./assets/tires/tires.gltf"></a-asset-item>
+        <a-asset-item id="wood" src="./assets/wood/wood.gltf"></a-asset-item>
+        <a-asset-item id="barrels" src="./assets/barrels/barrels.gltf"></a-asset-item>
+        <a-asset-item id="oil" src="./assets/oil/oil.gltf"></a-asset-item>
+        <a-asset-item id="generator" src="./assets/generator/generator.gltf"></a-asset-item>
+      </a-assets>
+
+       <a-entity
+        simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;"
+        movement-controls="speed: 0.1; camera: #camera;"
+        position="13 0.2 3"
+        id="#player"
+        >
+          <a-entity
+            camera="near:0.01;"
+            look-controls
+            fov="100"
+            id="#camera"
+            position="0 1.65 0"
+          >
+          </a-entity>
+
+          <a-entity
+            id="leftController"
+            oculus-touch-controls="hand: left;"
+          >
+            <a-entity
+              cursor="fuse: true; fuseTimeout: 500"
+              position="0 0 -.1"
+              geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+              material="color: gray; shader: flat"
+              raycaster="objects: .clicable; showLine: true; far: 100; lineColor: red; lineOpacity: 0.5"
+            >
+            </a-entity>
+          </a-entity>
+
+          <a-entity
+            id="rightController"
+            oculus-touch-controls="hand: right;"
+            controller
+          >
+            <a-entity
+              cursor="fuse: true; fuseTimeout: 500"
+              position="0.009 0.323 -0.330"
+              raycaster="objects: .burning; showLine: false; far: 1; lineColor: white; lineOpacity: 0.5"
+            >
+            </a-entity>
+            <a-entity id="extinguisherHand" gltf-model="#open-extinguisher" position="0 0 0" rotation="0 180 0" color="red">
+              <a-entity rotation="90" position="-0.003 0.313 0.312"> 
+                <a-entity id="foamId" bubble-effect="isActive:false; width:0.2; height: 1; numParticles:300;" rotation="0 0 0"></a-entity>
+              </a-entity>
+            </a-entity>
+          </a-entity>
+        </a-entity>
+
+      <a-entity id="tiresFire" raycaster-listener class="burning" gltf-model="#tires" position="0.400 -0.5 -3.638" rotation="0 90 0" color="black">
+        <a-entity fire-effect="isActive:true; width:1.7; height: 3; numParticles:1500;" position="-0.5 0 0" rotation="0 0 0"></a-entity>
+      </a-entity>
+
+
+      <a-entity id="woodFire" raycaster-listener class="burning" gltf-model="#wood"  position="-6.695 -0.5 -3.112" rotation="0 80 0" color="#826b58">
+        <a-entity fire-effect="isActive:true; width:3; height: 4; numParticles:4000;" position="-0.062 0 -0.071" rotation="0 20 0"></a-entity>
+      </a-entity>
+
+      <a-entity id="barrelsFire" raycaster-listener class="burning" gltf-model="#barrels"  position="7.095 -0.65 -3.518" rotation="0 0 0" color="red">
+        <a-entity fire-effect="isActive:true; width:1; height: 4; numParticles:3200;" position="-0.023 0 0.029"></a-entity>
+        <a-entity gltf-model="#oil"  position="0.370 0.264 -0.094" scale="0.35 1 0.35" rotation="0 0 0" color="black"></a-entity>
+      </a-entity>
+
+      <a-entity id="generatorFire" raycaster-listener class="burning" gltf-model="#generator"  position="-14.091 -0.5 -3.241" rotation="0 0 0" color="yellow">
+        <a-entity fire-effect="isActive:true; width:1; height: 4; numParticles:3200;" position="-0.39 0.775 0.2" rotation="0 45 0"></a-entity>
+      </a-entity>
+      
+      <a-entity id="extinguisher01" gltf-model="#extinguisher" clicable class="clicable" position="13.363 0.368 -2.660"></a-entity>
+      <a-entity id="extinguisher02" gltf-model="#extinguisher" clicable class="clicable" position="13.363 0.368 -2.066"></a-entity>
+      <a-entity id="extinguisher03" gltf-model="#extinguisher" clicable class="clicable" position="13.363 0.368 -1.422"></a-entity>
+      <a-entity id="extinguisher04" gltf-model="#extinguisher" clicable class="clicable" position="13.363 0.368 -1.022"></a-entity>
+
+      <a-entity gltf-model="#navmesh" class="navmesh" visible="false" position="0 -0.7 25"></a-entity>
+      <a-entity gltf-model="#factory" position="0 -0.7 25"></a-entity>
+      <a-sky src="#sky"></a-sky>
+    </a-scene>
+    <script src="./scripts/controller.js"></script>
+  </body>
+
+</html>
